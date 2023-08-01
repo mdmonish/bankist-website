@@ -63,4 +63,71 @@ btnScrollTo.addEventListener('click',function(e){
 
   section1.scrollIntoView({behavior:'smooth'})
 
-})
+});
+
+//nav bar clikc scroll to that section
+ //ineffeciney way
+// document.querySelectorAll('.nav__link').forEach(function(el){el.addEventListener('click',function(e){
+//   e.preventDefault();
+//   const id = this.getAttribute('href');
+  
+//   document.querySelector(id).scrollIntoView({behavior:"smooth"}); //it is creating copy of every section which will effect the performance latter
+
+// })
+// })
+
+ //efficient way - event delegation
+
+ //1. adding event on parent (common ancestor)
+ //2. detemine the originalted event
+
+ document.querySelector('.nav__links').addEventListener('click',function(e){
+  e.preventDefault()
+  console.log(e.target);
+  if(e.target.classList.contains('nav__link')){
+    console.log(e.target)
+    const id = e.target.getAttribute('href');
+  document.querySelector(id).scrollIntoView({behavior:"smooth"});
+  }
+ })
+
+ //tabbing 
+
+ const tabs = document.querySelectorAll('.operations__tab');
+ const tabContents = document.querySelectorAll('.operations__content');
+ const tabContainer = document.querySelector('.operations__tab-container')
+
+ tabContainer.addEventListener('click',function(e){
+  const clicked = e.target.closest('.operations__tab');
+//Guard phase
+  if(!clicked)return;
+
+  //remove previously active tabs
+  tabs.forEach(e=>e.classList.remove('operations__tab--active'))
+  tabContents.forEach(e=>e.classList.remove('operations__content--active'))
+  //activatingtab
+  
+  clicked.classList.add('operations__tab--active')
+  
+document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active')
+
+
+ })
+
+
+//lect
+
+//event propagation 
+// const randInt = (min,max)=>Math.floor(Math.random()*(max-min+1)+min);
+// const randomColor = ()=> `rgb(${randInt(0,255)},${randInt(0,255)},${randInt(0,255)})`
+// document.querySelector('.nav__link').addEventListener('click',function(e){
+//   this.style.backgroundColor = randomColor();
+// })
+
+// document.querySelector('.nav__links').addEventListener('click',function(e){
+//   this.style.backgroundColor = randomColor();
+// })
+
+// document.querySelector('.nav').addEventListener('click',function(e){
+//   this.style.backgroundColor = randomColor();
+// })
