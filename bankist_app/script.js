@@ -111,8 +111,63 @@ btnScrollTo.addEventListener('click',function(e){
   
 document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active')
 
-
  })
+//menu fade out
+
+// function refactoring
+const handleHover = function(e,opa){
+  if(e.target.classList.contains('nav__link')){
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(el=>{if(el!==link)el.style.opacity =opa;})
+    logo.style.opacity = opa;
+  }
+ }
+
+ const nav = document.querySelector('.nav');
+//we can not directing pass function as arguement, it will be passed as callback function
+ nav.addEventListener('mouseover',(e)=> handleHover(e,0.5))
+ nav.addEventListener('mouseout',(e)=> handleHover(e,1))
+
+ //sticky navbar on scroll -- ineficient way
+
+//  const initialCords = section1.getBoundingClientRect();
+
+//  //scroll event is available in window object
+
+//  window.addEventListener('scroll',function(){
+//   if(this.window.scrollY > initialCords.top)
+//   nav.classList.add('sticky')
+//   else
+//  nav.classList.remove('sticky')
+  
+//  })
+
+//efficinet approach - using interstion observer api
+
+//creating intersection observer api
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+
+const callBackOb = function(entries){
+const [entry]= entries;
+console.log(entry)
+if(!entry.isIntersecting)nav.classList.add('sticky')
+else nav.classList.remove('sticky')
+}
+
+const optionsOb = {
+  root: null, //means no itersection element only viewport
+  threshold: 0, //means at what percentage of viewport we will start intersecting
+  rootMargin : `-${navHeight}px`, //allow to add/remove extra height to the target element
+}
+
+const observer = new IntersectionObserver(callBackOb,optionsOb);
+observer.observe(header);
+
+
 
 
 //lect
