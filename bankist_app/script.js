@@ -35,7 +35,7 @@ document.addEventListener('keydown', function (e) {
 const topHead= document.querySelector('.header');
 const message = document.createElement('div');
 message.classList.add('cookie-message');
-message.innerHTML = `Added Button.<button class="btn btn--close-cookie">got it</button>`;
+message.innerHTML = `Welcome<button class="btn btn--close-cookie">got it</button>`;
 topHead.prepend(message)
  //deleting node
 
@@ -173,7 +173,7 @@ const allSections =document.querySelectorAll('.section');
 
 const revealSection = function(entries,observer){
   const [entry] = entries;
-  console.log("enside",entry.target.classList)
+ 
   if(!entry.isIntersecting)return;
 
   entry.target.classList.remove('section--hidden')
@@ -187,7 +187,82 @@ const sectionObserver = new IntersectionObserver(revealSection,{
 
 allSections.forEach(function(section){
   sectionObserver.observe(section);
-  section.classList.add('section--hidden')
+  // section.classList.add('section--hidden')
+})
+
+//lazy image loader
+
+const imgElement = document.querySelectorAll('img[data-src]');2
+const lazyImg = function(entries,observer){
+  const [entry] = entries;
+  if(!entry.isIntersecting)return;
+
+  entry.target.src = entry.target.dataset.src;
+
+  entry.target.addEventListener('load',function(){
+    entry.target.classList.remove('lazy-img')
+  })
+  observer.unobserve(entry.target)
+}
+
+
+const imgObserver = new IntersectionObserver(lazyImg,{root:null,threshold:0,rootMargin: '200px'})
+
+imgElement.forEach(img=>imgObserver.observe(img));
+
+//making slider
+const slides = document.querySelectorAll('.slide')
+let currSlide =0;
+const slider = document.querySelector('.slider');
+const btnSlideLeft = document.querySelector('.slider__btn--left')
+const btnSlideRight = document.querySelector('.slider__btn--right')
+// console.log("slide",slider)
+// slider.style.transform = 'scale(0.4) translateX(-1200px)';
+// slider.style.overflow = 'visible';
+//adding dots 
+
+const dotContainer = document.querySelector('.dots');
+const createDots = function(){
+  slides.forEach((_,i)=>dotContainer.insertAdjacentHTML('beforeend',`<button class="dots__dot" data-slide="${i}"></button>`))
+}
+
+
+
+createDots();
+
+const gotoSlide = function(activeSlide){
+  slides.forEach((s,i) => s.style.transform = `translate(${100*(i-activeSlide)}%)`)
+}
+
+const activateDots = function(slide){
+  const allDots = document.querySelectorAll('.dots__dot');
+  allDots.forEach(d=>d.classList.remove('dots__dot--active'));
+  document.querySelector(`.dots__dot[data-slide="${slide}"]`).classList.add('dots__dot--active')
+}
+activateDots(0)
+gotoSlide(0)
+btnSlideRight.addEventListener('click',function(){
+  currSlide++;
+  if(currSlide > slides.length-1){
+    currSlide = 0 }
+    gotoSlide(currSlide);
+    activateDots(currSlide)
+})
+btnSlideLeft.addEventListener('click',function(){
+  currSlide--;
+  if(currSlide < 0){
+    currSlide = slides.length-1}
+
+ gotoSlide(currSlide);
+ activateDots(currSlide)
+})
+
+dotContainer.addEventListener('click',function(e){
+  if(e.target.classList.contains('dots__dot')){
+    const {slide} = e.target.dataset
+    gotoSlide(slide);
+    activateDots(slide)
+  }
 })
 
 
@@ -206,4 +281,4 @@ allSections.forEach(function(section){
 
 // document.querySelector('.nav').addEventListener('click',function(e){
 //   this.style.backgroundColor = randomColor();
-// })
+// })8
