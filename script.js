@@ -52,10 +52,6 @@ document.addEventListener("keydown", function (e) {
 
 //creating new element
 
-message.classList.add("cookie-message");
-message.innerHTML = `Welcome<button class="btn btn--close-cookie">got it</button>`;
-topHead.prepend(message);
-
 //deleting node
 
 document
