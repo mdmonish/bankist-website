@@ -1,3 +1,6 @@
-# Bankist_Website
+# About the Project
+  - This is a landing page of a bank's website.
+  - Users can experience tabbing effects, modal popup, scrolling effects, and carousels.
 
-[live demo](https://bankist-market.netlify.app)
+# Demo
+  - This is the link to the application [live demo](https://bankist-market.netlify.app)
