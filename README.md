@@ -3,4 +3,4 @@
   - Users can experience tabbing effects, modal popup, scrolling effects, and carousels.
 
 # Demo
-  - This is the link to the application [live demo](https://bankist-market.netlify.app)
+  - This is the link to the application [live demo](https://bankist-landing-web-page.netlify.app/)
