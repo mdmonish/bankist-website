@@ -50,22 +50,9 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-//creating new element
-
-//deleting node
-
-document
-  .querySelector(".btn--close-cookie")
-  .addEventListener("click", function () {
-    message.remove();
-  });
-
-message.style.backgroundColor = "#37383d";
-
 //smooth scroll
 
 //add scroll to section when clicked
-
 
 btnScrollTo.addEventListener("click", function (e) {
   const scrollCords = section1.getBoundingClientRect();
@@ -97,9 +84,8 @@ btnScrollTo.addEventListener("click", function (e) {
 
 document.querySelector(".nav__links").addEventListener("click", function (e) {
   e.preventDefault();
-  console.log(e.target);
+
   if (e.target.classList.contains("nav__link")) {
-    console.log(e.target);
     const id = e.target.getAttribute("href");
     document.querySelector(id).scrollIntoView({ behavior: "smooth" });
   }
@@ -114,8 +100,8 @@ tabContainer.addEventListener("click", function (e) {
   if (!clicked) return;
 
   //remove previously active tabs
-  tabs.forEach((e) => e.classList.remove("operations__tab--active"));
-  tabContents.forEach((e) => e.classList.remove("operations__content--active"));
+  tabs.forEach(e => e.classList.remove("operations__tab--active"));
+  tabContents.forEach(e => e.classList.remove("operations__content--active"));
 
   //activatingtab
   clicked.classList.add("operations__tab--active");
@@ -134,17 +120,16 @@ const handleHover = function (e, opa) {
     const siblings = link.closest(".nav").querySelectorAll(".nav__link");
     const logo = link.closest(".nav").querySelector("img");
 
-    siblings.forEach((el) => {
+    siblings.forEach(el => {
       if (el !== link) el.style.opacity = opa;
     });
     logo.style.opacity = opa;
   }
 };
 
-
 //we can not directing pass function as arguement, it will be passed as callback function
-nav.addEventListener("mouseover", (e) => handleHover(e, 0.5));
-nav.addEventListener("mouseout", (e) => handleHover(e, 1));
+nav.addEventListener("mouseover", e => handleHover(e, 0.5));
+nav.addEventListener("mouseout", e => handleHover(e, 1));
 
 //sticky navbar on scroll -- ineficient way
 
@@ -184,8 +169,6 @@ observer.observe(header);
 
 //section animation on scroll
 
-
-
 const revealSection = function (entries, observer) {
   const [entry] = entries;
 
@@ -207,9 +190,9 @@ allSections.forEach(function (section) {
 
 //lazy image loader
 
-const imgElement = document.querySelectorAll('img[data-src]');
+const imgElement = document.querySelectorAll("img[data-src]");
 
-const lazyImg = function(entries,observer){
+const lazyImg = function (entries, observer) {
   const [entry] = entries;
   if (!entry.isIntersecting) return;
 
@@ -227,7 +210,7 @@ const imgObserver = new IntersectionObserver(lazyImg, {
   rootMargin: "200px",
 });
 
-imgElement.forEach((img) => imgObserver.observe(img));
+imgElement.forEach(img => imgObserver.observe(img));
 
 //making slider
 
@@ -260,13 +243,14 @@ const sliderFunction = () => {
 
   const activateDots = function (slide) {
     const allDots = document.querySelectorAll(".dots__dot");
-    allDots.forEach((d) => d.classList.remove("dots__dot--active"));
+    allDots.forEach(d => d.classList.remove("dots__dot--active"));
     document
       .querySelector(`.dots__dot[data-slide="${slide}"]`)
       .classList.add("dots__dot--active");
   };
 
   const initFunc = () => {
+    console.log("inside");
     createDots();
     activateDots(0);
     gotoSlide(0);
